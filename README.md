@@ -1,4 +1,4 @@
-Supabase Product Funnel Insights App
+# Supabase Product Funnel Insights App
 
 Simulate and analyze Supabase-style product usage funnels — from user activation to retention and monetization — using dbt, SQL, and Tableau Public.
 
@@ -43,13 +43,13 @@ Key Metrics Tracked
 
 Live Dashboard
 
-📈 Coming soon – hosted on Tableau Public - (Link will be added here when the dashboard is published.)
+Coming soon – hosted on Tableau Public - (Link will be added here when the dashboard is published.)
 
 ---
 
 Disclaimer
 
-All data is simulated and does **not** represent real Supabase user behavior. The intent is educational and for showcasing analytics capabilities.
+All data is simulated and does not represent real Supabase user behavior. The intent is educational.
 
 ---
 
