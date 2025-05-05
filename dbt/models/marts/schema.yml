@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: int_activation_funnel
+    description: >
+      Tracks the user's journey through the product funnel: from signup, to project creation,
+      to first real feature use. Useful for identifying drop-off points and guiding activation strategy.
+    columns:
+      - name: user_id
+        description: "Unique identifier of the user"
+      - name: signup_date
+        description: "When the user signed up"
+      - name: first_project_date
+        description: "Timestamp of the users first project"
+      - name: first_feature_use
+        description: "When the user triggered their first event (e.g., table_created)"
+      - name: reached_step_2
+        description: "TRUE if the user created a project"
+      - name: reached_step_3
+        description: "TRUE if the user used a feature after project creation"

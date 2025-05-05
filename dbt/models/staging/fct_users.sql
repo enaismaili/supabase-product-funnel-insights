@@ -4,5 +4,4 @@ select
     plan,
     lifecycle_stage
 from {{ source('public', 'users') }}
-
 --from public.users
