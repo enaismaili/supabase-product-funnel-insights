@@ -1,0 +1,15 @@
+# Python-related
+*.pyc
+__pycache__/
+.cache/
+venv/
+.env
+data_simulation/.env
+
+# macOS
+.DS_Store
+
+# dbt
+target/
+dbt_packages/
+logs/

@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: fct_users
+    description: "Fact table containing user-level information"
+    columns:
+      - name: user_id
+        description: "Primary identifier for the user"
+      - name: signup_date
+        description: "Timestamp of user signup"
+      - name: plan
+        description: "Subscription plan (free, pro, team)"
+      - name: lifecycle_stage
+        description: "User lifecycle status (active, churned, etc.)"
+
+  - name: fct_projects
+    description: "Fact table with user project activity"
+    columns:
+      - name: project_id
+        description: "Unique ID for project"
+      - name: user_id
+        description: "Owner of the project"
+      - name: project_type
+        description: "Type of project (personal, collab, demo)"
+      - name: created_at
+        description: "Creation timestamp"
+
+  - name: fct_events
+    description: "Event log for user behavior"
+    columns:
+      - name: event_id
+        description: "Unique ID for each event"
+      - name: user_id
+        description: "User who triggered the event"
+      - name: event_type
+        description: "Type of event (signup, table_created, etc.)"
+      - name: timestamp
+        description: "When the event occurred"
+
+  - name: fct_billing
+    description: "Fact table for billing and revenue data"
+    columns:
+      - name: billing_id
+        description: "Unique billing event ID"
+      - name: user_id
+        description: "User associated with the billing"
+      - name: amount
+        description: "Amount billed in USD"
+      - name: billing_date
+        description: "Date of the billing"
+      - name: plan_type
+        description: "Billing plan type (monthly, yearly)"
