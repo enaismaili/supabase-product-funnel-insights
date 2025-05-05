@@ -1,17 +1,18 @@
-name: 'supabase_funnel_project'
+name: supabase_funnel_project
 version: '1.0.0'
 config-version: 2
 
 profile: 'default'
-
 model-paths: ["dbt/models"]
 
-target-path: "target"  
-clean-targets:         
+target-path: "target"
+clean-targets:
   - "target"
   - "dbt_packages"
 
 models:
-  supabase_funnel_project:
-    +schema: supabase_funnel
+  +schema: supabase_funnel 
+  staging:
+    +materialized: view
+  marts:
     +materialized: view
