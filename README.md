@@ -6,7 +6,7 @@ Simulate and analyze Supabase-style product usage funnels — from user activati
 
 ## 📊 Project Summary
 
-This project mimics the kind of analysis a data analyst at Supabase might perform to support product and strategy decisions. It uses a simulated dataset modeled on realistic product behavior and tracks the full lifecycle:
+This project delivers lifecycle analytics across activation, retention, and monetization—modeled on the kind of product data pipelines a Supabase analyst would manage. Using realistic simulated behavioral and billing data, it provides full-funnel insights for strategic decision-making.
 
 **Activation → Retention → Monetization**
 
@@ -45,13 +45,17 @@ This project mimics the kind of analysis a data analyst at Supabase might perfor
 
 This project uses a layered dbt structure with `staging` and `marts` folders. Below is a summary of each model and what it does.
 
-| Model Name               | Layer     | File Path                                | Description                                                                                     | Output Schema         |
-|--------------------------|-----------|-------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------|
-| `fct_users`              | Staging   | `models/staging/fct_users.sql`            | Cleans and exposes user data from the Supabase DB                                                | `supabase_funnel`     |
-| `fct_projects`           | Staging   | `models/staging/fct_projects.sql`         | Cleans project creation events linked to users                                                   | `supabase_funnel`     |
-| `fct_events`             | Staging   | `models/staging/fct_events.sql`           | Normalizes event logs (e.g., table creation, auth events)                                        | `supabase_funnel`     |
-| `fct_billing`            | Staging   | `models/staging/fct_billing.sql`          | Prepares user billing data and monetization signals                                              | `supabase_funnel`     |
-| `int_activation_funnel` | Marts      | `models/marts/int_activation_funnel.sql`  | Tracks user journey from signup → project creation → feature usage, with drop-off indicators     | `supabase_funnel`     |
+| Model Name                 | Layer     | File Path                                 | Description                                                                                       | Output Schema     |
+|----------------------------|-----------|--------------------------------------------|----------------------------------------------------------------------------------------------------|--------------------|
+| `fct_users`                | Staging   | `models/staging/fct_users.sql`             | Cleans and exposes user data from the Supabase DB                                                  | `supabase_funnel` |
+| `fct_projects`             | Staging   | `models/staging/fct_projects.sql`          | Cleans project creation events linked to users                                                     | `supabase_funnel` |
+| `fct_events`               | Staging   | `models/staging/fct_events.sql`            | Normalizes event logs (e.g., table creation, auth events)                                          | `supabase_funnel` |
+| `fct_billing`              | Staging   | `models/staging/fct_billing.sql`           | Prepares user billing data and monetization signals                                                | `supabase_funnel` |
+| `int_activation_funnel`    | Marts     | `models/marts/int_activation_funnel.sql`   | Tracks user journey from signup → project creation → feature usage, with drop-off indicators       | `supabase_funnel` |
+| `int_retention_metrics`    | Marts     | `models/marts/int_retention_metrics.sql`   | Aggregates DAU, WAU, and MAU by day using rolling activity windows                                 | `supabase_funnel` |
+| `int_retention_cohorts`    | Marts     | `models/marts/int_retention_cohorts.sql`   | Builds user-level cohort tables with week-based retention offset since signup                      | `supabase_funnel` |
+| `int_monetization_metrics` | Marts     | `models/marts/int_monetization_metrics.sql`| Captures upgrade timing, churn risk, and total revenue by user                                     | `supabase_funnel` |
+| `int_mrr_by_month`         | Marts     | `models/marts/int_mrr_by_month.sql`        | Calculates Monthly Recurring Revenue (MRR) grouped by plan type and billing month                 | `supabase_funnel` |
 
 ---
 
