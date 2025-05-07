@@ -6,47 +6,91 @@ models:
     columns:
       - name: user_id
         description: "Primary identifier for the user"
+        tests:
+          - not_null
+          - unique
       - name: signup_date
         description: "Timestamp of user signup"
+        tests:
+          - not_null
       - name: plan
         description: "Subscription plan (free, pro, team)"
+        tests:
+          - accepted_values:
+              values: ['free', 'pro', 'team']
       - name: lifecycle_stage
         description: "User lifecycle status (active, churned, etc.)"
+        tests:
+          - accepted_values:
+              values: ['active', 'churned']
 
   - name: fct_projects
     description: "Fact table with user project activity"
     columns:
       - name: project_id
         description: "Unique ID for project"
+        tests:
+          - not_null
+          - unique
       - name: user_id
         description: "Owner of the project"
+        tests:
+          - not_null
       - name: project_type
         description: "Type of project (personal, collab, demo)"
+        tests:
+          - accepted_values:
+              values: ['personal', 'collab', 'demo']
       - name: created_at
         description: "Creation timestamp"
+        tests:
+          - not_null
 
   - name: fct_events
     description: "Event log for user behavior"
     columns:
       - name: event_id
         description: "Unique ID for each event"
+        tests:
+          - not_null
+          - unique
       - name: user_id
         description: "User who triggered the event"
+        tests:
+          - not_null
       - name: event_type
         description: "Type of event (signup, table_created, etc.)"
+        tests:
+          - not_null
       - name: timestamp
         description: "When the event occurred"
+        tests:
+          - not_null
 
   - name: fct_billing
     description: "Fact table for billing and revenue data"
     columns:
       - name: billing_id
         description: "Unique billing event ID"
+        tests:
+          - not_null
+          - unique
       - name: user_id
         description: "User associated with the billing"
+        tests:
+          - not_null
       - name: amount
         description: "Amount billed in USD"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "amount >= 0"
       - name: billing_date
         description: "Date of the billing"
+        tests:
+          - not_null
       - name: plan_type
         description: "Billing plan type (monthly, yearly)"
+        tests:
+          - accepted_values:
+              values: ['monthly', 'yearly']
