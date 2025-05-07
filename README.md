@@ -71,6 +71,29 @@ This data supports growth, activation, and onboarding optimization.
 
 ---
 
+### 🧠 Retention Analysis Value
+
+The int_retention_metrics and int_retention_cohorts models answer:
+- How many users return daily, weekly, or monthly?
+- What percentage of users remain active after 1, 2, 4+ weeks?
+- How does retention vary by signup cohort?
+
+This data informs product stickiness, user engagement trends, and cohort health over time.
+
+---
+
+### 🧠 Monetization Analysis Value
+
+The int_monetization_metrics and int_mrr_by_month models answer:
+- When did users convert from freemium to paid?
+- Who has churned (no billing in 30+ days)?
+- How much revenue did each user generate?
+- What is monthly recurring revenue (MRR) over time?
+
+These models support monetization strategy, customer segmentation, and LTV forecasting.
+
+---
+
 ## 📊 Live Dashboard
 
 *Coming soon* – hosted on Tableau Public  
