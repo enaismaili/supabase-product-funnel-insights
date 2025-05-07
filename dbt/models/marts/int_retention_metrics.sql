@@ -5,14 +5,12 @@ with events as (
     from {{ ref('fct_events') }}
 ),
 
-
 daily_user_activity as (
     select distinct
         user_id,
         activity_date
     from events
 ),
-
 
 daily_agg as (
     select
@@ -21,7 +19,6 @@ daily_agg as (
     from daily_user_activity
     group by activity_date
 ),
-
 
 rolling_users as (
     select

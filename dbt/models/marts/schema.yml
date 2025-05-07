@@ -68,3 +68,47 @@ models:
         description: "The number of users active in that cohort and week offset"
         tests:
           - not_null
+
+  - name: int_monetization_metrics
+    description: >
+      Tracks user monetization including first paid upgrade, last billing activity, total revenue,
+      and churn risk based on inactivity. Supports customer lifetime value and churn modeling.
+    columns:
+      - name: user_id
+        description: "Unique identifier of the user"
+        tests:
+          - not_null
+          - unique
+      - name: signup_date
+        description: "When the user signed up"
+      - name: plan
+        description: "User’s current plan at time of analysis"
+      - name: upgrade_date
+        description: "Date the user first made a payment (null if never upgraded)"
+      - name: last_billed
+        description: "Most recent billing event date"
+      - name: is_churned
+        description: "TRUE if user has not been billed in >30 days"
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: total_revenue
+        description: "Sum of all billing charges for this user"
+
+  - name: int_mrr_by_month
+    description: >
+      Calculates Monthly Recurring Revenue (MRR) by plan type and billing month,
+      based on all non-zero billing events.
+    columns:
+      - name: billing_month
+        description: "First day of the month used to group billing events"
+        tests:
+          - not_null
+      - name: plan_type
+        description: "Billing plan type (e.g., monthly, yearly)"
+        tests:
+          - not_null
+      - name: mrr
+        description: "Total revenue generated for the given plan and month"
+        tests:
+          - not_null
