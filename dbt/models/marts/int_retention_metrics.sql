@@ -5,7 +5,7 @@ with events as (
     from {{ ref('fct_events') }}
 ),
 
--- Get 1 row per active user per day
+
 daily_user_activity as (
     select distinct
         user_id,
@@ -13,7 +13,7 @@ daily_user_activity as (
     from events
 ),
 
--- Count unique users per day = DAU
+
 daily_agg as (
     select
         activity_date,
@@ -22,7 +22,7 @@ daily_agg as (
     group by activity_date
 ),
 
--- For WAU and MAU, count unique users seen in past 7/30 days
+
 rolling_users as (
     select
         d.activity_date,
