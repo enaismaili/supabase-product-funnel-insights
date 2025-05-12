@@ -50,12 +50,12 @@ for _ in range(NUM_USERS):
         })
 
     # Simulate realistic weekly event activity over 6 weeks (retention logic)
-    for week_offset in range(6):
+    for week_offset in range(5):
         # Higher engagement in earlier weeks
-        if random.random() < [1.0, 0.5, 0.3, 0.2, 0.1, 0.05][week_offset]:
+        if random.random() < [1.0, 0.3, 0.2, 0.1, 0.05][week_offset]:
             num_events = random.randint(1, 3)
             for _ in range(num_events):
-                event_time = signup_date + timedelta(days=week_offset * 7 + random.randint(0, 6))
+                event_time = signup_date + timedelta(days=week_offset * 7 + random.randint(0, 5))
                 events.append({
                     "event_id": str(uuid.uuid4()),
                     "user_id": user_id,
@@ -75,7 +75,9 @@ for _ in range(NUM_USERS):
 
 print("Uploading to Supabase...")
 
-# Upload all generated data to Supabase tables
+print("Uploading to Supabase...")
+
+# Insert new simulated data
 supabase.table("users").insert(users).execute()
 supabase.table("projects").insert(projects).execute()
 supabase.table("events").insert(events).execute()
