@@ -10,14 +10,13 @@ weekly_activity as (
         user_id,
         date_trunc('week', timestamp) as activity_week
     from {{ ref('fct_events') }}
-    group by user_id, activity_week
 ),
 
 cohort_activity as (
     select
         u.signup_week,
         a.activity_week,
-        floor(extract(epoch from (a.activity_week - u.signup_week)) / 604800) as week_number,
+        cast(floor(extract(epoch from (a.activity_week - u.signup_week)) / 604800) as int) as week_number,
         u.user_id
     from user_cohorts u
     join weekly_activity a 
