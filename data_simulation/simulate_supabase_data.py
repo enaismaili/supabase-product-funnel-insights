@@ -49,7 +49,7 @@ for _ in range(NUM_USERS):
             "created_at": (signup_date + timedelta(days=random.randint(1, 14))).isoformat()
         })
 
-    # Simulate realistic weekly event activity over 6 weeks (retention logic)
+    # Simulate realistic weekly event activity over 5 weeks (retention logic)
     for week_offset in range(5):
         # Higher engagement in earlier weeks
         if random.random() < [1.0, 0.3, 0.2, 0.1, 0.05][week_offset]:
@@ -75,9 +75,6 @@ for _ in range(NUM_USERS):
 
 print("Uploading to Supabase...")
 
-print("Uploading to Supabase...")
-
-# Insert new simulated data
 supabase.table("users").insert(users).execute()
 supabase.table("projects").insert(projects).execute()
 supabase.table("events").insert(events).execute()
