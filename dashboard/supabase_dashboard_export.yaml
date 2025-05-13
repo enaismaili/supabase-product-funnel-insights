@@ -1,0 +1,1657 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 0196c8c4-4e13-7001-8b07-57a11937d326 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: "This dashboard analyzes user behavior across the full lifecycle: Activation → Retention → Monetization"
+  projectId: 0196c58b-b00d-7116-a2aa-464d145e7ab8 # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: Simulated Supabase Product Insights
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status:
+    name: Completed
+  categories:
+    - name: Dashboard
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout:
+    type: fixed
+    unit: days
+    duration: 30
+  hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: true
+  refreshStalePublishedApp: false
+  autoRerunApp: false
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 0196c415-be57-7111-b946-712ac2489fe9 # [Demo] Hex Public Data (snowflake)
+    - dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0 # Supabase (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: TEXT
+    cellId: 0196c58c-34c1-7aa0-b0fc-484fad5a6e6c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      richText:
+        - type: h3
+          children:
+            - text: KPIs
+  - cellType: SQL
+    cellId: 0196c58c-586d-7aa0-b0fd-33e225159129 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Total Users
+    config:
+      source: |-
+        select count(*) as total_users
+        from postgres.supabase_funnel_supabase_funnel.fct_users;
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: total_users
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: total_users
+            renameTo: null
+            size: 113
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: METRIC
+    cellId: 0196c58d-a5fb-7aa0-b0fe-8c31a955b6a9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Total Users
+    config:
+      title: Total Users
+      valueVariableName: total_users
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: NUMBER
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: total_users
+      valueRowIndex: null
+      valueAggregate: Sum
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: total_users_kpi
+      comparisonResultVariable: comparison_value
+      outputResult: true
+  - cellType: SQL
+    cellId: 0196c58f-b152-7aa0-b0fe-ed799b604f71 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Users Upgraded Pct
+    config:
+      source: |-
+        -- % of users with at least one paid billing event
+        select 
+          round(1.0 * count(distinct user_id) / 
+            (select count(*) from supabase_funnel_supabase_funnel.fct_users), 3) as percent_upgraded
+        from supabase_funnel_supabase_funnel.fct_billing
+        where amount > 0
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: users_upgraded_pct
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: percent_upgraded
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: METRIC
+    cellId: 0196c590-bc72-7aa0-b0ff-92be4befac1f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "% Upgraded"
+    config:
+      title: "% Upgraded"
+      valueVariableName: users_upgraded_pct
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: PERCENT
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: percent_upgraded
+      valueRowIndex: null
+      valueAggregate: Sum
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: pct_users_upgraded
+      comparisonResultVariable: comparison_value_2
+      outputResult: true
+  - cellType: SQL
+    cellId: 0196c594-b567-7aa0-b101-1962d89a34f3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Latest MRR
+    config:
+      source: |-
+        select 
+          billing_month,
+          sum(mrr) as mrr
+        from supabase_funnel_supabase_funnel.int_mrr_by_month
+        group by billing_month
+        order by billing_month desc
+        limit 1
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: latest_mrr
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: billing_month
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: mrr
+            renameTo: null
+            size: 186
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: METRIC
+    cellId: 0196c595-ebd6-7aa0-b101-addb16b6ac1d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Latest MRR
+    config:
+      title: Latest MRR
+      valueVariableName: latest_mrr
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: CURRENCY
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: mrr
+      valueRowIndex: null
+      valueAggregate: Sum
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: mrr_latest
+      comparisonResultVariable: comparison_value_3
+      outputResult: true
+  - cellType: SQL
+    cellId: 0196c598-a9f8-7aa0-b102-263b6a36ac78 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: 7-Day Retention Rate
+    config:
+      source: |-
+        WITH cohort_retention AS (
+          SELECT
+            signup_week,
+            SUM(CASE WHEN week_number = 1 THEN retained_users ELSE 0 END) AS week_0_users,
+            SUM(CASE WHEN week_number = 2 THEN retained_users ELSE 0 END) AS week_1_users
+          FROM supabase_funnel_supabase_funnel.int_retention_cohorts
+          GROUP BY signup_week
+        )
+        SELECT
+          ROUND(1.0 * AVG(week_1_users * 1.0 / NULLIF(week_0_users, 0)), 4) AS week_1_retention_rate
+        FROM cohort_retention;
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: weekly_retention_rate
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: clean_avg_week_1_retention
+            renameTo: null
+            size: 211
+            wrapText: null
+            displayFormat: null
+          - originalName: retained_users
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: signup_week
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: week_0_users
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: week_1_retention
+            renameTo: null
+            size: 186
+            wrapText: null
+            displayFormat: null
+          - originalName: week_1_retention_rate
+            renameTo: null
+            size: 186
+            wrapText: null
+            displayFormat: null
+          - originalName: week_1_users
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: week_number
+            renameTo: null
+            size: 172
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: METRIC
+    cellId: 0196c599-431e-7aa0-b102-b248543d2d9a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: 7-Day Retention Rate
+    config:
+      title: 7-Day Retention Rate
+      valueVariableName: weekly_retention_rate
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: PERCENT
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: week_1_retention_rate
+      valueRowIndex: null
+      valueAggregate: Sum
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: weekly_retention
+      comparisonResultVariable: comparison_value_4
+      outputResult: true
+  - cellType: TEXT
+    cellId: 0196c678-03aa-755a-b2f8-2a93b0032835 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      richText:
+        - type: h3
+          children:
+            - bold: true
+              text: Activation Funnel
+  - cellType: SQL
+    cellId: 0196c678-2e0a-755a-b2f8-e44ecf6ea2f8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Activation Funnel Drop-Off
+    config:
+      source: |-
+        with base as (
+          select 
+            user_id,
+            signup_date,
+            first_project_date,
+            first_feature_use
+          from supabase_funnel_supabase_funnel.int_activation_funnel
+        ),
+
+        funnel as (
+          select
+            'Signed Up' as stage,
+            count(*) as users
+          from base
+
+          union all
+
+          select
+            'Created Project' as stage,
+            count(*) 
+          from base
+          where first_project_date is not null
+
+          union all
+
+          select
+            'Used Feature' as stage,
+            count(*)
+          from base
+          where first_feature_use is not null
+        )
+
+        select *
+        from funnel
+        order by case stage 
+          when 'Signed Up' then 1
+          when 'Created Project' then 2
+          when 'Used Feature' then 3
+        end
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: funnel_drop_off
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: stage
+            renameTo: null
+            size: 115
+            wrapText: null
+            displayFormat: null
+          - originalName: users
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CHARTV2
+    cellId: 0196c87a-74f7-7dd5-a6a8-914c552c1f7e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: 0196c67c-318a-755a-b2f9-cf7076834571
+            xAxis:
+              sort:
+                - Signed Up
+                - Created Project
+                - Used Feature
+              type: string
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              title: Stage
+              hideTitle: false
+              dataFrameColumn: stage
+            series:
+              - id: 0196c67c-34e9-755a-b2fa-1d3402531814
+                type: bar
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks:
+                      minStep: 500
+                    labels: {}
+                  title: User Count
+                  aggregate: sum
+                  hideTitle: false
+                  numberFormat:
+                    format: NUMBER
+                    currency: USD
+                    columnType: NUMBER
+                    showSeparators: false
+                    numDecimalDigits: -1
+                    abbreviateLargeNumbers: false
+                dataFrameColumns:
+                  - users
+                colorOrder: ascending
+                color:
+                  type: static
+                  color: "#4C78A8"
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                dataLabels:
+                  position: inside-end
+                barWidth: 1
+                orientation: horizontal
+                layout: grouped
+            dataFrame: funnel_drop_off
+        settings:
+          legend:
+            position: right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings: {}
+      resultVariable: funnel_drop_off_chart_2
+      outputResult: true
+      displayType: CHART
+      displayTableConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: []
+        columnProperties:
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: stage
+            renameTo: null
+            size: 115
+            wrapText: null
+            displayFormat: null
+          - originalName: users
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: TEXT
+    cellId: 0196c686-559c-755a-b2fb-ff2327b201f5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      richText:
+        - type: h3
+          children:
+            - text: Retention Trends
+  - cellType: SQL
+    cellId: 0196c686-8ab5-755a-b2fd-2ac9de8e8755 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: DAU MAU WAU Trend
+    config:
+      source: |-
+        select 
+          activity_date,
+          dau,
+          wau,
+          mau
+        from supabase_funnel_supabase_funnel.int_retention_metrics
+        order by activity_date
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: dau_mau_wau
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: activity_date
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: dau
+            renameTo: null
+            size: 72
+            wrapText: null
+            displayFormat: null
+          - originalName: mau
+            renameTo: null
+            size: 76
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: wau
+            renameTo: null
+            size: 74
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CHARTV2
+    cellId: 0196c688-0a88-755a-b2fe-80e38bb75cf6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: DAU MAU WAU Trend
+    config:
+      height: 540
+      chartSpec:
+        type: layered
+        layers:
+          - id: 0196c688-0a87-755a-b2fe-5fa708e729bf
+            xAxis:
+              type: datetime
+              style:
+                grid:
+                  style: solid
+                ticks:
+                  count: 15
+                labels:
+                  angle: 40
+              title: Date
+              timeUnit: yearmonthdate
+              datetimeFormat:
+                format: DATE_ISO8601
+                timezone: IGNORE
+                columnType: DATETIME
+              dataFrameColumn: activity_date
+            series:
+              - id: 0196c688-0f62-755a-b2fe-afb9be3efaec
+                type: line
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                  title: Active Users
+                  aggregate: sum
+                dataFrameColumns:
+                  - dau
+                  - mau
+                  - wau
+                colorDataFrameColumn: CHART_FOLD_KEYS
+                colorOrder: ascending
+                color:
+                  type: series
+                  colorsBySeriesValues:
+                    mau: "#72B7B2"
+                    wau: "#B279A2"
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                hideLegendTitle: true
+                point: false
+                stroke: solid
+            dataFrame: dau_mau_wau
+        settings:
+          legend:
+            position: top-right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings:
+        dau: "#4C78A8"
+        mau: "#F58518"
+        wau: "#E45756"
+      resultVariable: chart_result
+      outputResult: false
+      displayType: CHART
+      displayTableConfig: null
+  - cellType: SQL
+    cellId: 0196c68d-da66-755a-b301-d7e5fb535fe9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Retention Cohort Grid
+    config:
+      source: |-
+        with base as (
+          select 
+            signup_week,
+            week_number,
+            retained_users
+          from supabase_funnel_supabase_funnel.int_retention_cohorts
+        ),
+
+        cohort_base as (
+          select 
+            signup_week,
+            max(case when week_number = 1 then retained_users end) as cohort_size
+          from base
+          group by signup_week
+        ),
+
+        joined as (
+          select 
+            b.signup_week,
+            b.week_number,
+            b.retained_users,
+            c.cohort_size,
+            round(1.0 * b.retained_users::numeric / nullif(c.cohort_size, 4), 1) as retention_rate
+          from base b
+          join cohort_base c using (signup_week)
+          where b.week_number > 0
+        )
+
+        select *
+        from joined
+        order by signup_week, week_number;
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: retention_cohort_grid
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: cohort_size
+            renameTo: null
+            size: 114
+            wrapText: null
+            displayFormat: null
+          - originalName: retained_users
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: retention_rate
+            renameTo: null
+            size: 186
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: signup_week
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: week_number
+            renameTo: null
+            size: 129
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: PIVOT
+    cellId: 0196c68e-d52f-755a-b302-b1ccc3c4f02f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Retention Cohort Pivot
+    config:
+      castDecimals: true
+      dataframeName: retention_cohort_grid
+      resultVariable: retention_cohort_pivot
+      pivotConfig:
+        rows:
+          - field: week_number
+            fieldType: NUMBER
+            nameOverride: Week
+        values:
+          - field: retention_rate
+            fieldType: NUMBER
+            aggregation: SUM
+            nameOverride: Retention Rate
+            displayFormat:
+              format: PERCENT
+              currency: USD
+              columnType: NUMBER
+              showSeparators: true
+              numDecimalDigits: -1
+              abbreviateLargeNumbers: false
+        columns:
+          - field: signup_week
+            fieldType: DATETIMETZ
+            truncateTo: DAY
+            nameOverride: Signup Week
+      tableDisplayConfig:
+        pageSize: 50
+        height: 168
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting:
+          rulesets: []
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: 2024-11-11⋮Retention Rate
+            renameTo: null
+            size: 88
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-11-18⋮Retention Rate
+            renameTo: null
+            size: 86
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-11-25⋮Retention Rate
+            renameTo: null
+            size: 84
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-12-02⋮Retention Rate
+            renameTo: null
+            size: 86
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-12-09⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-12-16⋮Retention Rate
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-12-23⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2024-12-30⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-01-06⋮Retention Rate
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-01-13⋮Retention Rate
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-01-20⋮Retention Rate
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-01-27⋮Retention Rate
+            renameTo: null
+            size: 80
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-02-03⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-02-10⋮Retention Rate
+            renameTo: null
+            size: 86
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-02-17⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-02-24⋮Retention Rate
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-03-03⋮Retention Rate
+            renameTo: null
+            size: 84
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-03-10⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-03-17⋮Retention Rate
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-03-24⋮Retention Rate
+            renameTo: null
+            size: 80
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-03-31⋮Retention Rate
+            renameTo: null
+            size: 80
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-04-07⋮Retention Rate
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-04-14⋮Retention Rate
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-04-21⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-04-28⋮Retention Rate
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: 2025-05-05⋮Retention Rate
+            renameTo: null
+            size: 87
+            wrapText: null
+            displayFormat: null
+          - originalName: pivot-header-Week
+            renameTo: null
+            size: 45
+            wrapText: null
+            displayFormat: null
+          - originalName: pivot-header-week_number
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+        columnOrdering:
+          - ASC
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: true
+        showAggregations: false
+        columnAggregations: null
+  - cellType: TEXT
+    cellId: 0196c692-cb71-755a-b304-1035950eafd1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      richText:
+        - type: h3
+          children:
+            - text: Monetization
+  - cellType: SQL
+    cellId: 0196c693-03f2-755a-b304-e92c3cfe053a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: MRR by Month
+    config:
+      source: |-
+        select 
+          billing_month,
+          sum(mrr) as mrr
+        from supabase_funnel_supabase_funnel.int_mrr_by_month
+        group by billing_month
+        order by billing_month
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: mrr_by_month
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: billing_month
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: mrr
+            renameTo: null
+            size: 194
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CHARTV2
+    cellId: 0196c694-bf88-755a-b308-08b82bbb3229 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Monthly Recurring Revenue (MRR) Trend
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: 0196c694-bf87-755a-b307-e6789d81dcaf
+            xAxis:
+              type: datetime
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              title: Billing Month
+              timeUnit: yearmonth
+              dataFrameColumn: billing_month
+            series:
+              - id: 0196c694-c332-755a-b308-3001630b50a1
+                type: line
+                axis:
+                  type: number
+                  scale: linear
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                  title: MRR
+                  aggregate: sum
+                dataFrameColumns:
+                  - mrr
+                colorOrder: ascending
+                color:
+                  type: static
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                point: false
+                stroke: solid
+            dataFrame: mrr_by_month
+        settings:
+          legend:
+            position: right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings: {}
+      resultVariable: chart_result_2
+      outputResult: false
+      displayType: CHART
+      displayTableConfig: null
+  - cellType: SQL
+    cellId: 0196c696-13ec-755a-b308-9c63f70fcffc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Upgrade Count by Month
+    config:
+      source: |-
+        select 
+          date_trunc('month', upgrade_date) as month,
+          count(*) as upgraded_users
+        from supabase_funnel_supabase_funnel.int_monetization_metrics
+        where upgrade_date is not null
+        group by month
+        order by month
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: upgrade_count_by_month
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: month
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: upgraded_users
+            renameTo: null
+            size: 139
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CHARTV2
+    cellId: 0196c696-a219-755a-b309-39ecd777d38e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Monthly Upgrades
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: 0196c696-a218-755a-b309-11e5be493367
+            xAxis:
+              type: datetime
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              title: Month
+              timeUnit: yearmonth
+              dataFrameColumn: month
+            series:
+              - id: 0196c696-a506-755a-b309-673c75155638
+                type: bar
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks:
+                      minStep: 20
+                    labels: {}
+                  title: Upgraded Users
+                dataFrameColumns:
+                  - upgraded_users
+                colorOrder: ascending
+                color:
+                  type: static
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                dataLabels:
+                  position: inside-end
+                barWidth: 1
+                orientation: horizontal
+                layout: grouped
+            dataFrame: upgrade_count_by_month
+        settings:
+          legend:
+            position: right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings: {}
+      resultVariable: chart_result_3
+      outputResult: true
+      displayType: CHART
+      displayTableConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: []
+        columnProperties: []
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 0196c699-ce35-755a-b30a-703b20bf927b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Freemium vs Paid Distribution
+    config:
+      source: |-
+        select 
+          plan,
+          count(*) as users
+        from supabase_funnel_supabase_funnel.int_monetization_metrics
+        group by plan
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: freemium_vs_paid
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: plan
+            renameTo: null
+            size: 75
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: users
+            renameTo: null
+            size: 81
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CHARTV2
+    cellId: 0196c69a-9451-755a-b30b-001184c131b8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Freemium vs Paid User Distribution
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: 0196c69a-9450-755a-b30a-d80d85414e56
+            xAxis:
+              type: string
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              dataFrameColumn: plan
+            series:
+              - id: 0196c69a-990e-755a-b30b-28d6e0eca074
+                type: pie
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                  aggregate: sum
+                  referenceLines: []
+                dataFrameColumns:
+                  - users
+                colorDataFrameColumn: plan
+                colorOrder: ascending
+                color:
+                  type: series
+                  colorsBySeriesValues:
+                    pro: "#72B7B2"
+                    team: "#B279A2"
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                dataLabels:
+                  position: inside-center
+                hideLegendTitle: true
+                radius: 0
+                showAsPct: false
+            dataFrame: freemium_vs_paid
+        settings:
+          legend:
+            position: top
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings:
+        pro: "#F58518"
+        free: "#4C78A8"
+        team: "#E45756"
+      resultVariable: chart_result_4
+      outputResult: false
+      displayType: CHART
+      displayTableConfig: null
+  - cellType: SQL
+    cellId: 0196c69c-86e4-755a-b30b-f44710fb5bf5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Churned Users
+    config:
+      source: |-
+        select count(*) as churned_users
+        from supabase_funnel_supabase_funnel.int_monetization_metrics
+        where is_churned = true
+      dataFrameCell: false
+      dataConnectionId: 0196c43f-a2cf-7113-88e6-9a10cf510fc0
+      resultVariableName: churned_users
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: churned_users
+            renameTo: null
+            size: 132
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: METRIC
+    cellId: 0196c69d-492a-755a-b30c-8f108220ac85 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Churned Users
+    config:
+      title: Churned Users
+      valueVariableName: churned_users
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: NUMBER
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: churned_users
+      valueRowIndex: null
+      valueAggregate: Sum
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: churned_users_kpi
+      comparisonResultVariable: comparison_value_5
+      outputResult: true
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - TABLE_OF_CONTENTS
+    - STATUS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c58c-34c1-7aa0-b0fc-484fad5a6e6c
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 25
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c58d-a5fb-7aa0-b0fe-8c31a955b6a9
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 25
+              end: 50
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c590-bc72-7aa0-b0ff-92be4befac1f
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 50
+              end: 75
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c595-ebd6-7aa0-b101-addb16b6ac1d
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 75
+              end: 100
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c599-431e-7aa0-b102-b248543d2d9a
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 100
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c69d-492a-755a-b30c-8f108220ac85
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c678-03aa-755a-b2f8-2a93b0032835
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c87a-74f7-7dd5-a6a8-914c552c1f7e
+                  sharedFilterId: null
+                  height: 300
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c686-559c-755a-b2fb-ff2327b201f5
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 50
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c68e-d52f-755a-b302-b1ccc3c4f02f
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 50
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c688-0a88-755a-b2fe-80e38bb75cf6
+                  sharedFilterId: null
+                  height: 350
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c692-cb71-755a-b304-1035950eafd1
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c694-bf88-755a-b308-08b82bbb3229
+                  sharedFilterId: null
+                  height: 400
+                  showLabel: true
+            - start: 55
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c696-a219-755a-b309-39ecd777d38e
+                  sharedFilterId: null
+                  height: 400
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0196c69a-9451-755a-b30b-001184c131b8
+                  sharedFilterId: null
+                  height: 250
+                  showLabel: true
+sharedFilters: []
