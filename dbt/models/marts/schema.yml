@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: int_activation_funnel
+    description: >
+      Tracks the user's journey through the product funnel: from signup, to project creation,
+      to first real feature use. Useful for identifying drop-off points and guiding activation strategy.
+    columns:
+      - name: user_id
+        description: "Unique identifier of the user"
+        tests:
+          - not_null
+          - unique
+      - name: signup_date
+        description: "When the user signed up"
+        tests:
+          - not_null
+      - name: first_project_date
+        description: "Timestamp of the user’s first project"
+      - name: first_feature_use
+        description: "When the user triggered their first event (e.g., table_created)"
+      - name: reached_step_2
+        description: "TRUE if the user created a project"
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: reached_step_3
+        description: "TRUE if the user used a feature after project creation"
+        tests:
+          - accepted_values:
+              values: [true, false]
+
+  - name: int_retention_metrics
+    description: >
+      Aggregates daily, weekly, and monthly active users (DAU, WAU, MAU) based on event activity.
+      Supports time-series visualizations of user engagement across short- and long-term windows.
+    columns:
+      - name: activity_date
+        description: "The calendar day of user activity (used as primary time dimension)"
+        tests:
+          - not_null
+          - unique
+      - name: dau
+        description: "Count of distinct users active on that day"
+        tests:
+          - not_null
+      - name: wau
+        description: "Count of distinct users active in the 7-day window ending on this day"
+      - name: mau
+        description: "Count of distinct users active in the 30-day window ending on this day"
+
+  - name: int_retention_cohorts
+    description: >
+      Weekly cohort retention model that shows how many users returned N weeks after signup.
+      Useful for retention heatmaps and longitudinal analysis.
+    columns:
+      - name: signup_week
+        description: "The cohort week in which the user signed up"
+        tests:
+          - not_null
+      - name: week_number
+        description: "Number of weeks since the signup week (0 = signup week)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      - name: retained_users
+        description: "The number of users active in that cohort and week offset"
+        tests:
+          - not_null
+
+  - name: int_monetization_metrics
+    description: >
+      Tracks user monetization including first paid upgrade, last billing activity, total revenue,
+      and churn risk based on inactivity. Supports customer lifetime value and churn modeling.
+    columns:
+      - name: user_id
+        description: "Unique identifier of the user"
+        tests:
+          - not_null
+          - unique
+      - name: signup_date
+        description: "When the user signed up"
+      - name: plan
+        description: "User’s current plan at time of analysis"
+      - name: upgrade_date
+        description: "Date the user first made a payment (null if never upgraded)"
+      - name: last_billed
+        description: "Most recent billing event date"
+      - name: is_churned
+        description: "TRUE if user has not been billed in >30 days"
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: total_revenue
+        description: "Sum of all billing charges for this user"
+
+  - name: int_mrr_by_month
+    description: >
+      Calculates Monthly Recurring Revenue (MRR) by plan type and billing month,
+      based on all non-zero billing events.
+    columns:
+      - name: billing_month
+        description: "First day of the month used to group billing events"
+        tests:
+          - not_null
+      - name: plan_type
+        description: "Billing plan type (e.g., monthly, yearly)"
+        tests:
+          - not_null
+      - name: mrr
+        description: "Total revenue generated for the given plan and month"
+        tests:
+          - not_null

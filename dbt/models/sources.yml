@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: public
+    database: postgres     
+    schema: public
+    tables:
+      - name: users
+        description: "Simulated users table from Supabase"
+      - name: projects
+        description: "User-created projects"
+      - name: events
+        description: "User behavior events like signup, auth, etc."
+      - name: billing
+        description: "Simulated Stripe-like billing data"
