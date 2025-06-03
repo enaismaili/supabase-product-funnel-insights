@@ -1,6 +1,6 @@
 # Supabase Product Funnel Insights App
 
-Simulate and analyze Supabase-style product usage funnels — from user activation to retention and monetization — using dbt, SQL, and Hex.
+Simulate and analyze Supabase-style product usage funnels — from user activation to retention and monetization — using Supabase, dbt, SQL, and Hex.
 
 ---
 
