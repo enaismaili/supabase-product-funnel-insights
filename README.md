@@ -1,6 +1,6 @@
 # Supabase Product Funnel Insights App
 
-Simulate and analyze Supabase-style product usage funnels — from user activation to retention and monetization — using Supabase, dbt, SQL, and Hex.
+This app simulates and analyzes Supabase style product usage funnels, from user activation to retention and monetization, using Supabase, dbt, SQL, and Hex.
 
 ---
 
@@ -36,7 +36,7 @@ This project delivers lifecycle analytics across **activation**, **retention**, 
 ## 📈 Key Metrics Tracked
 
 - **Activation Funnel**: Signup → Project Created → Feature Used
-- **Retention**: DAU, WAU, MAU, and Cohort-Based Retention
+- **Retention**: DAU, WAU, MAU, and Cohort Based Retention
 - **Monetization**: MRR, Upgrade Events, Churn Rates, Freemium → Paid
 
 ---
@@ -45,7 +45,7 @@ This project delivers lifecycle analytics across **activation**, **retention**, 
 
 | Model Name                 | Layer     | Description                                                                                       |
 |----------------------------|-----------|----------------------------------------------------------------------------------------------------|
-| `fct_users`                | Staging   | Cleans and exposes user-level data                                                                |
+| `fct_users`                | Staging   | Cleans and exposes user level data                                                                |
 | `fct_projects`             | Staging   | Cleans project creation events linked to users                                                    |
 | `fct_events`               | Staging   | Normalizes event logs (e.g., table creation, auth events)                                         |
 | `fct_billing`              | Staging   | Prepares user billing and plan data                                                               |
@@ -84,7 +84,7 @@ The `int_monetization_metrics` and `int_mrr_by_month` models answer:
 - When do users convert to paid plans?
 - Who has churned?
 - What is the total revenue per user?
-- How is MRR evolving month-over-month?
+- How is MRR evolving month over month?
 
 ---
 
