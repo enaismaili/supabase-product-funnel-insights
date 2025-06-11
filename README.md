@@ -104,7 +104,7 @@ The `int_monetization_metrics` and `int_mrr_by_month` models answer:
 
 This project uses simulated data that does not represent real Supabase users or behavior. It is created for educational purposes only and is not affiliated with or endorsed by Supabase.
 
-Because the data is randomly generated, some logical inconsistencies may occur — for example:
+Because the data is randomly generated, some logical inconsistencies may occur, for example:
 - Users who “used a feature” without having first “created a project”
 - Fluctuating MRR or upgrade behavior not tied to real customer behavior
 
